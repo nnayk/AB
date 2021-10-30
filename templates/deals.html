@@ -1,0 +1,95 @@
+{% extends 'base.html' %} 
+{% block head %} 
+ {{ super() }}
+ <script src="https://kit.fontawesome.com/7c88c88894.js" crossorigin="anonymous"></script>
+{% endblock %}
+{% block title %} Market Page {% endblock %} {% block content %}
+<table class="table table-hover table-dark">
+  <thead>
+    <tr>
+      <!-- Your Columns HERE -->
+      <table class="table table-hover table-dark">
+        <thead>
+          <tr>
+            <!-- Your Columns HERE -->
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Barcode</th>
+            <th scope="col">Price</th>
+            <th scope="col">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Your rows inside the table HERE: -->
+          {% for item in items %}
+          <tr>
+            <td>{{item['id']}}</td>
+            <td>{{item["name"]}}</td>
+            <td>{{item["barcode"]}}</td>
+            <td>${{item["price"]}}</td>
+            <td>
+              <button class="btn btn-outline btn-info">More Info</button>
+              <button class="btn btn-outline btn-success">
+                Purchase This Item
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="search-box">
+        <input class="search-txt" type="text" name="" placeholder="Type to search ">
+        <a class="search-btn" href="#">
+          <i class="fas fa-search"></i>
+        </a>
+      </div>
+      {% endblock %}
+    </tr>
+  </thead>
+</table>
+{% block style %} 
+{{ super() }} 
+.search-box:hover > .search-txt
+{
+  width: 240px;
+  padding: 0 6px;
+  background: #343a30;
+  height: 40px; 
+  border-radius: 40px; 
+  padding: 10px; 
+}
+.search-box { 
+  position: absolute; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: #212121; 
+  height: 40px; 
+  border-radius: 40px; 
+  padding: 10px; 
+}
+.search-btn{
+  color: greenyellow !important;
+  float: right;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #343a30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
+
+.search-txt{
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  padding: 0;
+  color: #ADFF2F;
+  font-size: 16px;
+  transition: 0.4s;
+  line-height: 40px;
+  width: 0px;
+}
+{% endblock %}
