@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+Register Page
+{% endblock %}
+
+{% block content %} 
+<body class="text-center">
+<div class='container'>
+    <form method="POST" class="form-register" style="color:greenyellow">
+        {{ form.hidden_tag() }}
+        <h1 class="h3 mb-3 font-weight-normal">
+                Please Create your Account
+            </h1>
+           <!-- <br> -->
+        {{ form.username.label() }}
+        {{ form.username(class="form-control",placeholder="Enter Username") }}
+
+        {{ form.email.label() }}
+        {{ form.email(class="form-control",placeholder="Enter Email Address") }}
+
+        {{ form.pwd1.label() }}
+        {{ form.pwd1(class="form-control",placeholder="Enter Password (must be > 6 characters)") }}
+
+        {{ form.pwd2.label() }}
+        {{ form.pwd2(class="form-control",placeholder="Confirm Password (must be > 6 characters)") }}
+        <br>
+        {{ form.submit(class="btn btn-lg btn-block btn-primary")}}
+        </form>
+</div>
+</body>
+
+{% endblock %}
+
+{% block style %}
+{{ super() }}
+.form-register
+{
+    background: #212121; 
+}
+input[type="text"], textarea {
+
+    background-color: #343a30 !important; 
+    color: greenyellow !important;
+  
+  }
+
+  input[type="password"], textarea {
+    background-color: #343a30 !important;
+    color: greenyellow !important;
+  }
+
+  ::placeholder
+  {
+      color: greenyellow !important;
+  }
+
+  .btn-primary
+  {
+      background-color: #343a30 !important;
+      color: greenyellow !important;
+      border: #343a30 !important;
+      border-radius: 12px;
+  }
+  .error
+  {
+      color: red !important;
+      background-color:red !important;
+  }
+
+
+
+
+{% endblock %}
+
