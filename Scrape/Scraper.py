@@ -45,6 +45,30 @@ class onlineScraper:
             #print(f"Price: {pr}")
         return cleanPrices
     
+    def getConditions(self):
+        scrapedConditions = self.soup.find_all(str(self.htmlCondition["tag"]),class_=str(self.htmlCondition["class"]))
+        cleanConditions = []
+        for cond in scrapedConditions:
+            cleanConditions.append(cond.text)
+        return cleanConditions
+    
+    def getShipping(self):
+        scrapedShipping = self.soup.find_all(str(self.htmlShipping["tag"]),class_=str(self.htmlShipping["class"]))
+        cleanShipping = []
+        for ship in scrapedShipping:
+            cleanShipping.append(ship.text)
+        #print(f"cleanshipping={cleanShipping}")
+        return cleanShipping
+
+    def getImages(self):
+        scrapedImages = []
+        images = self.soup.find_all("img")
+        for img in images:
+                if img.has_attr('src') and img.has_attr('class') and img['class'][0]=="s-item__image-img":
+                    scrapedImages.append(img['src'])
+       # print(f"scrapedImages={scrapedImages[0]}")
+        return scrapedImages
+    
     def customPriceRange(self,min,max):
         validProducts = {}
         for product in self.prodInfo:
@@ -53,6 +77,26 @@ class onlineScraper:
                 validProducts[product] = self.prodInfo[product]
 
         return validProducts
+    
+        
+    def sortByPrice(self,productList):
+        #print("hallo",productList[0]['price'])
+        #print(f"awesome={float(productList[0]['price'][1:])}")
+        cpList=list(productList)
+        for prod in cpList:
+            if "to" in prod['price']:
+                print('asueleu')
+                index=prod['price'][1:].index('$')+2
+                print(f"index={index}")
+                prod['cleanPrice']=float(prod['price'][index:])
+                print(f"lallu={prod['cleanPrice']}")
+            else:
+                prod['cleanPrice']=float(prod['price'][1:])
+
+        cpList = sorted(productList, key=lambda d: d['cleanPrice'],reverse=True) 
+        #cpList.pop('cleanPrice',None)
+        return cpList
+
     
     def hasKeyword(self,word):
         validProducts = {}

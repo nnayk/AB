@@ -5,49 +5,80 @@
 {% endblock %}
 {% block title %} Find Deals {% endblock %} 
 {% block content %}
-<table class="table table-hover table-dark">
-  <thead>
-    <tr>
-      <!-- Your Columns HERE -->
-      <table class="table table-hover table-dark">
-        <thead>
-          <tr>
-            <!-- Your Columns HERE -->
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Barcode</th>
-            <th scope="col">Price</th>
-            <th scope="col">Options</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Your rows inside the table HERE: -->
-          {% for item in items %}
-          <tr>
-            <td>{{item["id"]}}</td>
-            <td>{{item["name"]}}</td>
-            <td>{{item["barcode"]}}</td>
-            <td>${{item["price"]}}</td>
-            <td>
-              <button class="btn btn-outline btn-info">More Info</button>
-              <button class="btn btn-outline btn-success">
-                Purchase This Item
+    <!-- Your Columns HERE -->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <form action="#" method="POST">
+            <div class="container">
+              <div class="row">
+            <div class="col-sm">
+            <p class="search">Search an item to get started!</p>
+            <hr>
+            <div class="search-box">
+              <input class="search-txt" type="text" name="search" placeholder="Type to search ">
+              <button class="search-btn">
+                <i class="fas fa-search"></i>
               </button>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <div class="search-box">
-        <input class="search-txt" type="text" name="" placeholder="Type to search ">
-        <a class="search-btn" href="#">
-          <i class="fas fa-search"></i>
-        </a>
+            </div>
+          </div>
+
+            <div>
+            <p class="choose-filters"></p>
+          </div>
+
+            <div>
+              <div class="droplist">
+              {{ jiggle.hidden_tag() }}
+              {{ jiggle.filterMode(class="form-control") }}
+              </div>
+            </div>
+            <div>
+              {{ jiggle.submit(class="btn btn-lg btn-block btn-primary") }}
+            </div>
+          </div>
+        </div>
+            </form>
+        </div>
       </div>
-      {% endblock %}
-    </tr>
-  </thead>
-</table>
+    </div>
+    
+
+  <hr>
+  <hr>
+  <hr>
+  <hr>
+  <hr>
+
+  <table class="table table-hover table-dark">
+    <thead>
+      <tr>
+        {% for title in titles%}
+        <!-- Your Columns HERE -->
+        <th class="heading" scope="col">{{ title }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Your rows inside the table HERE: -->
+      {% for item in items %}
+      <tr>
+        <td class="names"><a href="{{item['link']}}" target="_blank">{{item['name']}}</a></td> 
+        <td><img src="{{item['image']}}" alt="Image Not Found"></td>
+        <td>{{item["price"]}}</td>
+        <td>{{item["condition"]}}</td>
+        <td>{{item["shipping"]}}</td>
+        <td>
+          <button class="btn btn-outline btn-info">More Info</button>
+          <button class="btn btn-outline btn-warning">Add To Watchlist</button>
+          <button class="btn btn-outline btn-success">Purchase This Item</button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table> 
+{% endblock %}
 {% block style %} 
 {{ super() }} 
 .search-box:hover > .search-txt
@@ -60,9 +91,9 @@
   padding: 10px; 
 }
 .search-box { 
-  position: absolute; 
-  top: 50%;
-  left: 50%;
+  position: absolute;
+  margin-left:110px;
+  margin-top:40px;
   transform: translate(-50%,-50%);
   background: #212121; 
   height: 40px; 
@@ -70,12 +101,15 @@
   padding: 10px; 
 }
 .search-btn{
+  position:absolute;
+  left:80%;
   color: greenyellow !important;
   float: right;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #343a30;
+  background: #343a30 !important;
+  border: #343a30;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,5 +126,42 @@
   transition: 0.4s;
   line-height: 40px;
   width: 0px;
+}
+
+.names{
+  width: 300px;
+  word-break: break-word;
+}
+
+.search{
+  font-weight: bold;
+  float:left;
+  margin-left:1px;
+  margin-top:0px;
+  top:6%;
+  left:20%;
+  text-align:left;
+}
+
+
+.filters
+{
+  width:200px;
+  border: #343a30 !important;
+}
+
+select{
+  color: greenyellow !important;
+  background-color: #343a30 !important; 
+  border: #343a30 !important; 
+}
+
+.container
+{
+  margin-top:10px;
+}
+
+.droplist{
+  margin-right:30px;
 }
 {% endblock %}

@@ -1,5 +1,6 @@
+from flask.app import Flask
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField,SelectField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
 from Scrape.models import User
 
@@ -26,3 +27,14 @@ class RegisterForm(FlaskForm):
     pwd2 = PasswordField(label='', validators=[
                          EqualTo('pwd1'), DataRequired()])
     submit = SubmitField(label='Create Account')
+
+class LoginForm(FlaskForm):
+    usernameOrEmail = StringField(label='',validators=[DataRequired()])
+    pwd = PasswordField(label='',validators=[DataRequired()])
+    submit = SubmitField(label='Log In')
+
+class FilterForm(FlaskForm):
+    filterMode = SelectField("Sort By",choices=[('none',"None"),('price','Price'),('rating','Seller Rating'),('reviews','Number of Seller Reviews')])
+    submit = SubmitField(label='Apply')
+    
+
