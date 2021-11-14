@@ -34,7 +34,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField(label='Log In')
 
 class FilterForm(FlaskForm):
-    filterMode = SelectField("Sort By",choices=[('none',"None"),('price','Price'),('rating','Seller Rating'),('reviews','Number of Seller Reviews')])
+    filterMode = SelectField("Sort By",choices=[('none',"None"),('priceLow','Price (Low to High)'),('priceHigh','Price (High to Low)'),('rating','Seller Rating'),('reviews','Number of Seller Reviews')])
     submit = SubmitField(label='Apply')
     
 

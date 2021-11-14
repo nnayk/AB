@@ -6,7 +6,7 @@
 class onlineScraper:
     def getNames(self):
         #print(soup.prettify())
-        scrapedProducts = self.soup.find_all(str(self.htmlTitle["tag"]),class_=str(self.htmlTitle["class"]))
+        scrapedProducts = self.generalSoup.find_all(str(self.htmlTitle["tag"]),class_=str(self.htmlTitle["class"]))
         cleanProducts=[]
         remove=[]
         for i,name in enumerate(scrapedProducts):
@@ -26,7 +26,7 @@ class onlineScraper:
 
     def getLinks(self):
         #print(f"self.htmlLink={self.htmlLink}")
-        jumbledLinks = self.soup.find_all(class_=str(self.htmlLink["class"]))
+        jumbledLinks = self.generalSoup.find_all(class_=str(self.htmlLink["class"]))
         cleanLinks=[]
         for link in jumbledLinks:
             cleanLinks.append(link['href'])
@@ -36,7 +36,7 @@ class onlineScraper:
         return cleanLinks
 
     def getPrices(self):
-        scrapedPrices = self.soup.find_all(str(self.htmlPrice["tag"]),class_=str(self.htmlPrice["class"]))
+        scrapedPrices = self.generalSoup.find_all(str(self.htmlPrice["tag"]),class_=str(self.htmlPrice["class"]))
         cleanPrices = []
         for price in scrapedPrices:
             cleanPrices.append(price.text)
@@ -46,14 +46,14 @@ class onlineScraper:
         return cleanPrices
     
     def getConditions(self):
-        scrapedConditions = self.soup.find_all(str(self.htmlCondition["tag"]),class_=str(self.htmlCondition["class"]))
+        scrapedConditions = self.generalSoup.find_all(str(self.htmlCondition["tag"]),class_=str(self.htmlCondition["class"]))
         cleanConditions = []
         for cond in scrapedConditions:
             cleanConditions.append(cond.text)
         return cleanConditions
     
     def getShipping(self):
-        scrapedShipping = self.soup.find_all(str(self.htmlShipping["tag"]),class_=str(self.htmlShipping["class"]))
+        scrapedShipping = self.generalSoup.find_all(str(self.htmlShipping["tag"]),class_=str(self.htmlShipping["class"]))
         cleanShipping = []
         for ship in scrapedShipping:
             cleanShipping.append(ship.text)
@@ -62,7 +62,7 @@ class onlineScraper:
 
     def getImages(self):
         scrapedImages = []
-        images = self.soup.find_all("img")
+        images = self.generalSoup.find_all("img")
         for img in images:
                 if img.has_attr('src') and img.has_attr('class') and img['class'][0]=="s-item__image-img":
                     scrapedImages.append(img['src'])
@@ -79,7 +79,7 @@ class onlineScraper:
         return validProducts
     
         
-    def sortByPrice(self,productList):
+    def sorter(self,productList,priceSortType,sortType):
         #print("hallo",productList[0]['price'])
         #print(f"awesome={float(productList[0]['price'][1:])}")
         cpList=list(productList)
@@ -93,9 +93,26 @@ class onlineScraper:
             else:
                 prod['cleanPrice']=float(prod['price'][1:])
 
-        cpList = sorted(productList, key=lambda d: d['cleanPrice'],reverse=True) 
+        
+        if sortType=="price":
+            highest = True
+
+            if priceSortType=="priceLow":
+                highest=False
+            cpList = sorted(productList, key=lambda d: d['cleanPrice'],reverse=highest) 
+
+        elif sortType=="seller-feedback":
+            cpList = sorted(productList, key=lambda d: d['seller-feedback'],reverse=True) 
+        
+        elif sortType=="seller-reviews":
+            cpList = sorted(productList, key=lambda d: d['seller-reviews'],reverse=True) 
+
+
         #cpList.pop('cleanPrice',None)
         return cpList
+    
+    def sortBySellerRating(self,productList):
+        pass
 
     
     def hasKeyword(self,word):

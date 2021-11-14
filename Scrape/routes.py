@@ -22,15 +22,22 @@ def dealsPage():
     titles=[]
     items=''
     sort=""
+    sellerInfo=""
     jiggle = FilterForm()
     if request.method=="POST":
         productEntered = request.form.get("search","")
         if productEntered=='':
             return render_template("deals.html",jiggle=jiggle,items='',titles='',sort=sort)
         sort_by = jiggle.filterMode.data
+
+        if sort_by=="rating":
+            sellerInfo="Seller Rating (%)"
+        elif sort_by=="reviews":
+            sellerInfo="Number of Reviews"
+
         #print(f"jigglypuff={sort}")
         storeObj = General("Ebay")
-        titles = ["Name","Image","Price","Condition","Shipping","Options"]
+        titles = ["Name","Image","Price","Condition","Shipping",sellerInfo,"Options"]
         products_list = storeObj.startScrape(productEntered,sort_by)
         items = products_list
     return render_template('deals.html', jiggle=jiggle,items=items,titles=titles)

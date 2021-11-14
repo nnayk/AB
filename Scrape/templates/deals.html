@@ -35,7 +35,9 @@
               </div>
             </div>
             <div>
+              <div class="apply">
               {{ jiggle.submit(class="btn btn-lg btn-block btn-primary") }}
+            </div>
             </div>
           </div>
         </div>
@@ -69,6 +71,12 @@
         <td>{{item["price"]}}</td>
         <td>{{item["condition"]}}</td>
         <td>{{item["shipping"]}}</td>
+        <td>
+          <div>
+          {{item["seller-feedback"]}}
+          </div>
+          {{item["seller-reviews"]}}
+        </td>
         <td>
           <button class="btn btn-outline btn-info">More Info</button>
           <button class="btn btn-outline btn-warning">Add To Watchlist</button>
@@ -164,4 +172,14 @@ select{
 .droplist{
   margin-right:30px;
 }
+
+.btn-primary
+  {
+      background-color: #343a30 !important;
+      color: greenyellow !important;
+      border: #343a30 !important;
+      border-radius: 12px;
+      height:40px;
+      font-size: 18px;
+  }
 {% endblock %}

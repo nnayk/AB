@@ -5,7 +5,7 @@ class Utilities:
         return {"tag":str(htmlTag),"class":str(htmlClass)}
 
     #organizes product info into a concise dictionary where product name maps to its attributes
-    def orgProdInfo(self,prodNames,prodPrices,prodLinks,prodConds,prodShip,prodImages):
+    def orgProdInfo(self,prodNames,prodPrices,prodLinks,prodConds,prodShip,prodImages,sellerFeedback,sellerRatings):
         #format: {}
         productCompleteList = []
         #code repetition unfortunately appears to be inevitable here since the existence of 
@@ -41,6 +41,22 @@ class Utilities:
                 prodDict['image'] = prodImages[i]
             except:
                 prodDict['image'] = "Check Link"
+            
+            try:
+                prodDict['seller-feedback'] = sellerFeedback[i]
+            except:
+                prodDict['seller-feedback'] = ''
+            
+            try:
+                prodDict['seller-reviews'] = sellerRatings[i]
+            except:
+                prodDict['seller-reviews'] = ''
+            
+            #try:
+             #   prodDict['seller-rating'] = sellerRating[i]
+            #except:
+             #   prodDict['seller-rating'] = "Check Link"
+
 
             productCompleteList.append(prodDict.copy())
         print("HELLO WORLD")

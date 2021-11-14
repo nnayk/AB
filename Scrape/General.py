@@ -9,34 +9,44 @@ import requests
 
 class General:
     def __init__(self,store) -> None:
-        self.store = store.capitalize()
+        self.store = store
 
     def startScrape(self,productIn,sort_by):
         if self.store=="Ebay":
             link=f"https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw={productIn}&_sacat=0"
             utils = Utilities()
+            ebayObj = Ebay(self.store,productIn,utils.initDicts("h3","s-item__title"),utils.initDicts(htmlClass="s-item__link"),utils.initDicts("span","s-item__price"),utils.initDicts("span","SECONDARY_INFO"),utils.initDicts("span","s-item__shipping s-item__logisticsCost"))
 
-            ebayObj = Ebay(productIn,utils.initDicts("h3","s-item__title"),utils.initDicts(htmlClass="s-item__link"),utils.initDicts("span","s-item__price"),utils.initDicts("span","SECONDARY_INFO"),utils.initDicts("span","s-item__shipping s-item__logisticsCost"))
+        productLs,remove = ebayObj.getNames() #contains indexes of products from pdouct_ls that do not have proper/complete information
+        #print(f"remove{remove}")
+        productLinks = ebayObj.getLinks()
+        utils.delProducts(remove,productLinks)
+        productConditions = ebayObj.getConditions()
+        productPrice = ebayObj.getPrices()
+        productShip = ebayObj.getShipping()
+        productImages = ebayObj.getImages()
+            
+        if self.store=="Ebay":   
+            sellerFeedback=[]
+            sellerRatings=[]
+            #sellerFeedback,sellerRatings=ebayObj.getSpecificProdInfo(productLinks)
+            if sort_by=="reviews":
+                sellerFeedback=ebayObj.getSellerInfo(productLinks,"feedback")
+            elif sort_by=="rating":
+                sellerRatings=ebayObj.getSellerInfo(productLinks,"reviews")
+                print(f"BUGSY MOGES={sellerRatings}")
+            productList = utils.orgProdInfo(productLs,productPrice,productLinks,productConditions,productShip,productImages,sellerFeedback,sellerRatings)
+            if sort_by=="priceLow":
+                productList = ebayObj.sorter(productList,"priceLow","price")
+            elif sort_by == "priceHigh":
+                productList = ebayObj.sorter(productList,"priceHigh","price")
+            elif sort_by=="reviews":
+                productList = ebayObj.sorter(productList,"","seller-feedback")
+            elif sort_by=="rating":
+                productList = ebayObj.sorter(productList,"","seller-reviews")
 
-            productLs,remove = ebayObj.getNames() #contains indexes of products from pdouct_ls that do not have proper/complete information
-            #print(f"remove{remove}")
-            productLinks = ebayObj.getLinks()
-            utils.delProducts(remove,productLinks)
-            productConditions = ebayObj.getConditions()
-            productPrice = ebayObj.getPrices()
-            productShip = ebayObj.getShipping()
-            productImages = ebayObj.getImages()
-            #print(f"productship={productShip},lengthy={len(productShip)}")
-            #print(f"absaj={len(productLs)}")
-            #print(f"ls={len(productLs)}\nlinks={len(productLinks)}\nprices={len(productPrice)}")
 
-            #for i,product in enumerate(productLs):
-                        #print(f"{i} Product Name: {product}")
-
-            productList = utils.orgProdInfo(productLs,productPrice,productLinks,productConditions,productShip,productImages)
-            if sort_by=="price":
-                productList = ebayObj.sortByPrice(productList)
-            return productList
+        return productList
            # ebayObj.prodInfo = utils.orgProdInfo(productLs,productPrice,productLinks)
 
             #for key,value in ebayObj.prodInfo.items():
