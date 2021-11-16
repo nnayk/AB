@@ -48,6 +48,7 @@ class onlineScraper:
     def getConditions(self):
         scrapedConditions = self.generalSoup.find_all(str(self.htmlCondition["tag"]),class_=str(self.htmlCondition["class"]))
         cleanConditions = []
+        condIndices=[]
         for cond in scrapedConditions:
             cleanConditions.append(cond.text)
         return cleanConditions
@@ -57,6 +58,7 @@ class onlineScraper:
         cleanShipping = []
         for ship in scrapedShipping:
             cleanShipping.append(ship.text)
+
         #print(f"cleanshipping={cleanShipping}")
         return cleanShipping
 
@@ -85,13 +87,13 @@ class onlineScraper:
         cpList=list(productList)
         for prod in cpList:
             if "to" in prod['price']:
-                print('asueleu')
+                #print('asueleu')
                 index=prod['price'][1:].index('$')+2
-                print(f"index={index}")
-                prod['cleanPrice']=float(prod['price'][index:])
-                print(f"lallu={prod['cleanPrice']}")
+                #print(f"index={index}")
+                prod['cleanPrice']=float(prod['price'][index:].replace(",",""))
+                #print(f"lallu={prod['cleanPrice']}")
             else:
-                prod['cleanPrice']=float(prod['price'][1:])
+                prod['cleanPrice']=float(prod['price'][1:].replace(",",""))
 
         
         if sortType=="price":
@@ -111,9 +113,6 @@ class onlineScraper:
         #cpList.pop('cleanPrice',None)
         return cpList
     
-    def sortBySellerRating(self,productList):
-        pass
-
     
     def hasKeyword(self,word):
         validProducts = {}

@@ -23,11 +23,12 @@ class Ebay(onlineScraper):
         self.generalSoup = BeautifulSoup(self.listings.content, "html.parser")
 
 
-    def getSellerInfo(self,prodLinks,sortType):
+    def getSellerInfo(self,prodCompleteList,sortType):
         '''gets each product's seller info,description,etc.'''
         sellerRatings=[]
         sellerFeedback=[]
-        for link in prodLinks:
+        for prod in prodCompleteList:
+            link=prod['link']
             itemId=str(link[link.index("itm")+1:link.index("?")])
             itemPage = requests.get(f"https://www.ebay.com/itm/{itemId}")
             itemSoup = BeautifulSoup(itemPage.content, "html.parser")
@@ -35,27 +36,43 @@ class Ebay(onlineScraper):
             #print(f"billy={sellerRating}")
             #print(f"billy={(int)(sellerRating[sellerRating.index('(')+1:sellerRating.index(')')-1])}")
             if sortType=="feedback":
-                try:
-                    print(f"selly111={sellerFeed}")
-                    sellerFeed = (int)(sellerFeed[sellerFeed.index('(')+1:])
-                except: 
-                    print(f'sel22222={sellerFeed}')
+                sellerFeed = (int)(sellerFeed[sellerFeed.index('(')+1:])
                 sellerFeedback.append(sellerFeed)
 
             elif sortType=="reviews":
-                sellerRate= itemSoup.find("div",id="si-fb").text
                 try:
+                    sellerRate= itemSoup.find("div",id="si-fb").text
                     sellerRate = (float)(sellerRate[0:sellerRate.index('%')])
                 except:
-                    print(f"sellerRating={sellerRate}")
-                print(f"fallu={sellerRate}")
+                    sellerRate=0.0
+                    #print(f"sellerRating={sellerRate}")
+                #print(f"fallu={sellerRate}")
                 sellerRatings.append(sellerRate)
             
         if sortType=="feedback":
             return sellerFeedback
-        print("jagga")
+        #print("jagga")
         return sellerRatings
         #print(f"sellerRating={sellerRatings},sellerFeedback={sellerFeedback}")
+    
+    def badShippingOrCondition(self,productCompleteList,shipChecked,condChecked):
+        newList=[]
+        for prod in productCompleteList:
+            shipPassed='free shipping' in prod['shipping'].lower()
+            condPassed='new' in prod['condition'].lower()
+
+            if shipChecked:
+                if shipPassed:
+                    if condChecked:
+                        if condPassed:
+                            newList.append(prod)
+                    else:
+                        newList.append(prod)
+            elif condChecked:
+                if condPassed:
+                    if condPassed:
+                        newList.append(prod)
+        return newList
     def specialShipping(self):
         pass
 

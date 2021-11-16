@@ -24,10 +24,27 @@ def dealsPage():
     sort=""
     sellerInfo=""
     jiggle = FilterForm()
+    saveString="Save On "
+    shipChecked=False
+    condChecked=False
+
     if request.method=="POST":
         productEntered = request.form.get("search","")
+        saveString=''
+        shipBox = request.form.getlist('freeShipping')
+        if 'on' in shipBox:
+            print('applu')
+            shipChecked = True
+        
+        condBox = request.form.getlist('newCond')
+
+        if 'on' in condBox:
+            condChecked = True
+            
+        #print(f'checky={shipChecked},{condChecked}')
+        #print("savey=",saveString)
         if productEntered=='':
-            return render_template("deals.html",jiggle=jiggle,items='',titles='',sort=sort)
+            return render_template("deals.html",jiggle=jiggle,items='',titles='',saveString=saveString)
         sort_by = jiggle.filterMode.data
 
         if sort_by=="rating":
@@ -38,9 +55,10 @@ def dealsPage():
         #print(f"jigglypuff={sort}")
         storeObj = General("Ebay")
         titles = ["Name","Image","Price","Condition","Shipping",sellerInfo,"Options"]
-        products_list = storeObj.startScrape(productEntered,sort_by)
+        products_list = storeObj.startScrape(productEntered,shipChecked,condChecked,sort_by)
         items = products_list
-    return render_template('deals.html', jiggle=jiggle,items=items,titles=titles)
+    #print("savestringa",saveString)
+    return render_template('deals.html', jiggle=jiggle,items=items,titles=titles,saveString=saveString)
 
 
 @app.route("/register", methods=["GET", "POST"])

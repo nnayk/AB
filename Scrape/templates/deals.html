@@ -7,6 +7,9 @@
 {% block content %}
     <!-- Your Columns HERE -->
 
+
+    
+
     <div class="container">
       <div class="row">
         <div class="col-sm">
@@ -34,6 +37,15 @@
               {{ jiggle.filterMode(class="form-control") }}
               </div>
             </div>
+
+            <div class="freeShipping">
+            Free Shipping  <input type="checkbox" name="freeShipping">
+            </div>
+
+            <div class="newCond"> 
+            New Condition  <input type="checkbox" name="newCond">
+            </div>
+
             <div>
               <div class="apply">
               {{ jiggle.submit(class="btn btn-lg btn-block btn-primary") }}
@@ -52,6 +64,13 @@
   <hr>
   <hr>
   <hr>
+  <hr>
+  <hr>
+  <hr>
+  <hr>
+
+
+  <h1 class="save">{{ saveString }}</h1>
 
   <table class="table table-hover table-dark">
     <thead>
@@ -181,5 +200,23 @@ select{
       border-radius: 12px;
       height:40px;
       font-size: 18px;
+  }
+
+  .freeShipping
+  {
+    margin-top:1px;
+    padding: 10px;
+  }
+
+  .newCond
+  {
+    padding:10px;
+  }
+
+  .save
+  {
+    text-align:center;
+    font-size:80px;
+    margin-top:140px;
   }
 {% endblock %}

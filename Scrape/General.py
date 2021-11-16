@@ -11,7 +11,9 @@ class General:
     def __init__(self,store) -> None:
         self.store = store
 
-    def startScrape(self,productIn,sort_by):
+    def startScrape(self,productIn,shipChecked,condChecked,sort_by):
+
+        #print(f"libdub={shipChecked},{condChecked}")
         if self.store=="Ebay":
             link=f"https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw={productIn}&_sacat=0"
             utils = Utilities()
@@ -22,20 +24,28 @@ class General:
         productLinks = ebayObj.getLinks()
         utils.delProducts(remove,productLinks)
         productConditions = ebayObj.getConditions()
-        productPrice = ebayObj.getPrices()
         productShip = ebayObj.getShipping()
+        productPrice = ebayObj.getPrices()
         productImages = ebayObj.getImages()
             
         if self.store=="Ebay":   
+            productList = utils.orgProdInfo(productLs,productPrice,productLinks,productConditions,productShip,productImages)
+            if shipChecked or condChecked:
+                productList = ebayObj.badShippingOrCondition(productList,shipChecked,condChecked)
+
+
+
             sellerFeedback=[]
             sellerRatings=[]
+
             #sellerFeedback,sellerRatings=ebayObj.getSpecificProdInfo(productLinks)
             if sort_by=="reviews":
-                sellerFeedback=ebayObj.getSellerInfo(productLinks,"feedback")
+                sellerFeedback=ebayObj.getSellerInfo(productList,"feedback")
             elif sort_by=="rating":
-                sellerRatings=ebayObj.getSellerInfo(productLinks,"reviews")
-                print(f"BUGSY MOGES={sellerRatings}")
-            productList = utils.orgProdInfo(productLs,productPrice,productLinks,productConditions,productShip,productImages,sellerFeedback,sellerRatings)
+                sellerRatings=ebayObj.getSellerInfo(productList,"reviews")
+                #print(f"BUGSY MOGES={sellerRatings}")
+            
+            productList = utils.addSellerStats(productList,sellerFeedback,sellerRatings)
             if sort_by=="priceLow":
                 productList = ebayObj.sorter(productList,"priceLow","price")
             elif sort_by == "priceHigh":

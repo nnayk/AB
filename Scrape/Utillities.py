@@ -5,7 +5,7 @@ class Utilities:
         return {"tag":str(htmlTag),"class":str(htmlClass)}
 
     #organizes product info into a concise dictionary where product name maps to its attributes
-    def orgProdInfo(self,prodNames,prodPrices,prodLinks,prodConds,prodShip,prodImages,sellerFeedback,sellerRatings):
+    def orgProdInfo(self,prodNames,prodPrices,prodLinks,prodConds,prodShip,prodImages):
         #format: {}
         productCompleteList = []
         #code repetition unfortunately appears to be inevitable here since the existence of 
@@ -42,16 +42,6 @@ class Utilities:
             except:
                 prodDict['image'] = "Check Link"
             
-            try:
-                prodDict['seller-feedback'] = sellerFeedback[i]
-            except:
-                prodDict['seller-feedback'] = ''
-            
-            try:
-                prodDict['seller-reviews'] = sellerRatings[i]
-            except:
-                prodDict['seller-reviews'] = ''
-            
             #try:
              #   prodDict['seller-rating'] = sellerRating[i]
             #except:
@@ -59,9 +49,27 @@ class Utilities:
 
 
             productCompleteList.append(prodDict.copy())
-        print("HELLO WORLD")
-        print(f"jsahdkas={productCompleteList}")
+        #print("HELLO WORLD")
+        #print(f"jsahdkas={productCompleteList}")
         return productCompleteList
+    
+    def addSellerStats(self,productCompleteList,sellerFeedback,sellerRatings):
+        index=0
+        while index<len(productCompleteList):
+            try:
+                    productCompleteList[index]['seller-feedback'] = sellerFeedback[index]
+            except:
+                    productCompleteList[index]['seller-feedback'] = ''
+                
+            try:
+                    productCompleteList[index]['seller-reviews'] = sellerRatings[index]
+            except:
+                    productCompleteList[index]['seller-reviews'] = ''
+            index+=1
+        
+        
+        return productCompleteList
+
 
 
 

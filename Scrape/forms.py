@@ -1,6 +1,7 @@
 from flask.app import Flask
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField,SelectField
+from wtforms.fields.simple import BooleanField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
 from Scrape.models import User
 
@@ -15,7 +16,7 @@ class RegisterForm(FlaskForm):
 
     def validate_email(self, emailToCheck):
         emailAddress = User.query.filter_by(email=emailToCheck.data).first()
-        print(f"emailAddress={emailAddress}")
+        #print(f"emailAddress={emailAddress}")
         if emailAddress:
             # print(f"email={emailAddress}")
             raise ValidationError("Email taken. Please try a different one.")
@@ -36,5 +37,6 @@ class LoginForm(FlaskForm):
 class FilterForm(FlaskForm):
     filterMode = SelectField("Sort By",choices=[('none',"None"),('priceLow','Price (Low to High)'),('priceHigh','Price (High to Low)'),('rating','Seller Rating'),('reviews','Number of Seller Reviews')])
     submit = SubmitField(label='Apply')
+    freeShip = SubmitField(label="Free Shipping")
     
 
