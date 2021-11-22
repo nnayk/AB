@@ -86,14 +86,24 @@ class onlineScraper:
         #print(f"awesome={float(productList[0]['price'][1:])}")
         cpList=list(productList)
         for prod in cpList:
+            #print(f"prodPrice={prod['price']}")
             if "to" in prod['price']:
-                #print('asueleu')
-                index=prod['price'][1:].index('$')+2
-                #print(f"index={index}")
-                prod['cleanPrice']=float(prod['price'][index:].replace(",",""))
-                #print(f"lallu={prod['cleanPrice']}")
+                try:
+                    #print('asueleu')
+                        #print(prod['price'])
+                        index=prod['price'][1:].index('$')+2
+                        #print(f"index={index}")
+                        prod['cleanPrice']=float(prod['price'][index:].replace(",",""))
+                        #print(f"lallu={prod['cleanPrice']}")
+                except:
+                    prod['price']="Price not found"
+                    prod['cleanPrice']=0
             else:
-                prod['cleanPrice']=float(prod['price'][1:].replace(",",""))
+                try:
+                    prod['cleanPrice']=float(prod['price'][1:].replace(",",""))
+                except:
+                    prod['price']="Price not found"
+                    prod['cleanPrice']=0
 
         
         if sortType=="price":

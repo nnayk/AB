@@ -69,9 +69,6 @@
   <hr>
   <hr>
 
-
-  <h1 class="save">{{ saveString }}</h1>
-
   <table class="table table-hover table-dark">
     <thead>
       <tr>
@@ -96,15 +93,24 @@
           </div>
           {{item["seller-reviews"]}}
         </td>
-        <td>
+        <!--<td>
           <button class="btn btn-outline btn-info">More Info</button>
           <button class="btn btn-outline btn-warning">Add To Watchlist</button>
           <button class="btn btn-outline btn-success">Purchase This Item</button>
-        </td>
+        </td>-->
       </tr>
       {% endfor %}
     </tbody>
   </table> 
+
+  <div class="wrapper"> 
+    <div class="static-txt">{{ saveString }}</div>
+    <ul class="dynamic-txts">
+      {% for prod in saveItems%}
+      <li><span>{{ prod}}</span></li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endblock %}
 {% block style %} 
 {{ super() }} 
@@ -112,7 +118,7 @@
 {
   width: 240px;
   padding: 0 6px;
-  background: #343a30;
+  background: #034295 !important;
   height: 40px; 
   border-radius: 40px; 
   padding: 10px; 
@@ -122,7 +128,7 @@
   margin-left:110px;
   margin-top:40px;
   transform: translate(-50%,-50%);
-  background: #212121; 
+  opacity: 1 !important
   height: 40px; 
   border-radius: 40px; 
   padding: 10px; 
@@ -130,13 +136,13 @@
 .search-btn{
   position:absolute;
   left:80%;
-  color: greenyellow !important;
+  color: rgba(255, 0, 149, 0.808);
   float: right;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #343a30 !important;
-  border: #343a30;
+  background: #034295 !important;;
+  border: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -148,11 +154,12 @@
   outline: none;
   float: left;
   padding: 0;
-  color: #ADFF2F;
+  color: rgba(255, 0, 149, 0.808) !important;
   font-size: 16px;
   transition: 0.4s;
   line-height: 40px;
   width: 0px;
+  font-weight:bold;
 }
 
 .names{
@@ -162,6 +169,7 @@
 
 .search{
   font-weight: bold;
+  brightness(0.9);
   float:left;
   margin-left:1px;
   margin-top:0px;
@@ -178,9 +186,10 @@
 }
 
 select{
-  color: greenyellow !important;
-  background-color: #343a30 !important; 
-  border: #343a30 !important; 
+  color: rgba(255, 0, 149, 0.808) !important;
+  background-color: #034295 !important;
+  border: #034295 !important;
+  font-weight:bold;
 }
 
 .container
@@ -190,13 +199,15 @@ select{
 
 .droplist{
   margin-right:30px;
+  color: rgba(255, 0, 149, 0.808) !important;
 }
 
 .btn-primary
   {
-      background-color: #343a30 !important;
-      color: greenyellow !important;
-      border: #343a30 !important;
+    color: rgba(255, 0, 149, 0.808) !important;
+    background-color: #034295 !important; 
+    font-weight:bold; 
+      <!--border-color: rgba(255, 0, 149, 0.808) !important;-->
       border-radius: 12px;
       height:40px;
       font-size: 18px;
@@ -213,10 +224,78 @@ select{
     padding:10px;
   }
 
-  .save
-  {
-    text-align:center;
-    font-size:80px;
-    margin-top:140px;
-  }
-{% endblock %}
+
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+   *{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: 'Poppins', sans-serif;
+   }
+
+   .wrapper{
+     display: flex;
+     margin-top:90px;
+     background-color: black;
+   }
+   .wrapper .static-txt{
+     opacity: 1  !important;
+     font-size: 60px;
+     font-weight: 500;
+     text-align:center;
+     margin-left: 650px;
+   }
+   .wrapper .dynamic-txts{
+     margin-left: 15px;
+     height: 90px;
+     line-height: 90px;
+     color: rgba(255, 0, 149, 0.808);
+     overflow: hidden;
+     
+   }
+   .dynamic-txts li{
+     list-style: none;
+     color: rgba(255, 0, 149, 0.808);
+     text-align: center;
+     border-radius: 10px;
+     font-size: 60px;
+     font-weight: 400;
+     position: relative;
+     top: 0;
+     animation: slide 12s steps(4) infinite;
+   }
+   @keyframes slide {
+     100%{
+       top: -360px;
+     }
+   }
+   .dynamic-txts li span{
+     position: relative;
+     margin: 5px 0;
+     line-height: 90px;
+
+   }
+
+   .dynamic-txts li span::after{
+     content: "";
+     position: absolute;
+     left: 0;
+     height: 120%;
+     width: 100%;
+     border-left: 2px solid; 
+     animation: typing 3s steps(10) infinite;
+     background-color: black;
+   }
+
+   @keyframes typing {
+     40%, 60%{
+       left: calc(100% + 30px);
+     }
+     100%{
+       left: 0;
+     }
+   }
+   </style>
+   {% endblock %}

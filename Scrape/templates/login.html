@@ -6,7 +6,7 @@ Login Page
 {% block content %} 
 <body class="text-center">
 <div class='container'>
-    <form method="POST" class="form-login" style="color:greenyellow">
+    <form method="POST" class="form-login" style="color: rgba(255, 0, 149, 0.808) !important;">
         {{ form.hidden_tag() }}
         <br>  
         <br>
@@ -33,33 +33,32 @@ Login Page
 
 {% block style %}
 {{ super() }}
-.form-register
-{
-    background: #212121; 
-}
 input[type="text"], textarea {
 
-    background-color: #343a30 !important; 
-    color: greenyellow !important;
+    background-color: #034295 !important; 
+    color: rgba(255, 0, 149, 0.808) !important;
+    font-weight:bold;
   
   }
 
   input[type="password"], textarea {
-    background-color: #343a30 !important;
-    color: greenyellow !important;
+    background-color: #034295 !important;
+    color: rgba(255, 0, 149, 0.808) !important;
+    font-weight:bold;
   }
 
   ::placeholder
   {
-      color: greenyellow !important;
+      color: rgba(255, 0, 149, 0.808) !important;
   }
 
   .btn-primary
   {
-      background-color: #343a30 !important;
-      color: greenyellow !important;
-      border: #343a30 !important;
+      background-color:#034295 !important;
+      color: rgba(255, 0, 149, 0.808) !important;
+      border: #034295 !important;
       border-radius: 12px;
+      font-weight:bold;
   }
 {% endblock %}
 
