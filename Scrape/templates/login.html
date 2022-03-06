@@ -6,7 +6,7 @@ Login Page
 {% block content %} 
 <body class="text-center">
 <div class='container'>
-    <form method="POST" class="form-login" style="color: rgba(255, 0, 149, 0.808) !important;">
+    <form method="POST" class="form-login" style="color: red !important;">
         {{ form.hidden_tag() }}
         <br>  
         <br>
@@ -15,7 +15,7 @@ Login Page
             </h1>
            <!-- <br> -->
         {{ form.usernameOrEmail.label() }}
-        {{ form.usernameOrEmail(class="form-control",placeholder="Enter Username or Email Address") }}
+        {{ form.usernameOrEmail(class="form-control",placeholder="Enter Username") }}
 
 
         {{ form.pwd.label() }}
@@ -36,26 +36,26 @@ Login Page
 input[type="text"], textarea {
 
     background-color: #034295 !important; 
-    color: rgba(255, 0, 149, 0.808) !important;
+    color: white !important;
     font-weight:bold;
   
   }
 
   input[type="password"], textarea {
     background-color: #034295 !important;
-    color: rgba(255, 0, 149, 0.808) !important;
+    color: white !important;
     font-weight:bold;
   }
 
   ::placeholder
   {
-      color: rgba(255, 0, 149, 0.808) !important;
+      color: white !important;
   }
 
   .btn-primary
   {
       background-color:#034295 !important;
-      color: rgba(255, 0, 149, 0.808) !important;
+      color: white !important;
       border: #034295 !important;
       border-radius: 12px;
       font-weight:bold;

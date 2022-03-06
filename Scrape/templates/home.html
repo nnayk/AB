@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}
-    Shop 'n Save
+    Veteran App
 {% endblock %}
 {% block content %}
     <div>
         <div class="homePage">
-            <h1 class="title" >Welcome to Shop 'n Save</h1>
+            <h1 class="title" >Welcome to Veteran App</h1>
             <br>
-            <p class="subtitle">Save Time and Money</p>
+            <p class="subtitle">Communities for our veterans</p>
             <br>
             <div class="start">
-            <a class="btn btn-primary" href="{{ url_for('dealsPage') }}" id="start">Get Started</a>
+            <a class="btn btn-primary" href="{{ url_for('preferencePage') }}" id="start">Get Started</a>
             </div>
+            <img src="Flag.png" alt="American Flag" width="500" height="600">
         </div>
     </div>
 {% endblock %}
@@ -23,6 +24,7 @@
     text-align:center;
     margin-top:300px;
     font-weight: bold !important;
+    color: #034295;
 }
 
 .title
@@ -32,12 +34,16 @@
 }
 .subtitle 
 {
-    color: rgba(255, 0, 149, 0.808) !important;
+    color: red !important;
     font-size:40px;
 }
 
 .btn
 {
     font-weight: bold;
+    background-color: #034295
 }
+
+
+
 {% endblock %}
